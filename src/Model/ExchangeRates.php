@@ -10,21 +10,11 @@ class ExchangeRates implements Model
     private \DateTime $date;
     private array $rates = [];
 
-    public function getBase(): string
-    {
-        return $this->base;
-    }
-
     public function setBase(string $base): self
     {
         $this->base = $base;
 
         return $this;
-    }
-
-    public function getDate(): \DateTime
-    {
-        return $this->date;
     }
 
     public function setDate(\DateTime $date): self

@@ -6,8 +6,8 @@ namespace App\Model;
 
 class Commission
 {
-    const EU_BASED_RATE = 0.01;
-    const NOT_EU_BASED_RATE = 0.02;
+    const EU_ISSUED_CARD = 0.01;
+    const NON_EU_ISSUED_CARD = 0.02;
 
     private Transaction $transaction;
     private Country $country;
@@ -26,35 +26,9 @@ class Commission
         return $this->transaction;
     }
 
-    public function setTransaction(Transaction $transaction): self
-    {
-        $this->transaction = $transaction;
-
-        return $this;
-    }
-
     public function getCountry(): Country
     {
         return $this->country;
-    }
-
-    public function setCountry(Country $country): self
-    {
-        $this->country = $country;
-
-        return $this;
-    }
-
-    public function getExchangeRates(): ExchangeRates
-    {
-        return $this->exchangeRates;
-    }
-
-    public function setExchangeRates(ExchangeRates $exchangeRates): self
-    {
-        $this->exchangeRates = $exchangeRates;
-
-        return $this;
     }
 
     public function getValue(): float
@@ -74,7 +48,7 @@ class Commission
         $rate = $this->exchangeRates->getRateByCurrency($this->getTransaction()->getCurrency());
         $amount = $this->getTransaction()->getAmount() / $rate;
 
-        $value = $this->getCountry()->isEu() ? $amount * self::EU_BASED_RATE : $amount * self::NOT_EU_BASED_RATE;
+        $value = $this->getCountry()->isEu() ? $amount * self::EU_ISSUED_CARD : $amount * self::NON_EU_ISSUED_CARD;
         $value = $this->valueCeiling($value);
 
         $this->setValue($value);

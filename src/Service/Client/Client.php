@@ -21,5 +21,5 @@ abstract class Client
         return $this->client;
     }
 
-    abstract protected function fetch(): Model;
+    abstract public function fetch(): Model;
 }
