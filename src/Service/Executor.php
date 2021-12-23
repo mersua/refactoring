@@ -14,14 +14,16 @@ class Executor
      * @throws \Exception
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public static function execute(string $inputFile): array
-    {
-        $exchangeRates = (new ExchangeRatesClient())->fetch();
-        $transactionReader = new TransactionReader($inputFile);
+    public static function execute(
+        TransactionReader $reader,
+        ExchangeRatesClient $ratesClient,
+        CountryClient $countryClient
+    ): array {
+        $exchangeRates = $ratesClient->fetch();
 
         $commissions = [];
-        foreach ($transactionReader->process() as $transaction) {
-            $country = (new CountryClient($transaction->getBin()))->fetch();
+        foreach ($reader->process() as $transaction) {
+            $country = $countryClient->setBin($transaction->getBin())->fetch();
             $commission = new Commission($transaction, $country, $exchangeRates);
             $commission->calculate();
             $commissions[] = $commission;

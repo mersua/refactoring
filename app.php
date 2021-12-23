@@ -1,7 +1,9 @@
 <?php
 
+use App\Factory\Factory;
 use App\Model\Commission;
 use App\Service\Executor;
+use App\Service\Formatter;
 use Symfony\Component\Dotenv\Dotenv;
 
 require_once __DIR__ . '/vendor/autoload.php';
@@ -21,11 +23,15 @@ if (!is_file($inputFile)) {
 try {
     (new Dotenv())->load(__DIR__ . '/.env');
 
-    $commissions = array_map(function (Commission $commission) {
-        return $commission->getValue();
-    }, Executor::execute($inputFile));
+    $factory = Factory::run($inputFile);
 
-    echo implode(PHP_EOL, $commissions) . PHP_EOL;
+    $commissions = Executor::execute(
+        $factory->getReader(),
+        $factory->getRatesClient(),
+        $factory->getCountryClient()
+    );
+
+    echo Formatter::display($commissions);
     exit(0);
 } catch (\Throwable $e) {
     echo $e->getMessage() . PHP_EOL;

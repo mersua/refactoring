@@ -19,4 +19,4 @@ To run CLI app:
 To run CLI tests:
 
     composer install
-    vendor/bin/phpunit tests
+    ./vendor/bin/phpunit tests/

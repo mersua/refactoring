@@ -1,0 +1,22 @@
+[
+   {
+      "alpha2":"DK",
+      "name":"Denmark"
+   },
+   {
+      "alpha2":"LT",
+      "name":"Lithuania"
+   },
+   {
+      "alpha2":"JP",
+      "name":"Japan"
+   },
+   {
+      "alpha2":"US",
+      "name":"United States of America"
+   },
+   {
+      "alpha2":"GB",
+      "name":"United Kingdom of Great Britain and Northern Ireland"
+   }
+]

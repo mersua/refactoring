@@ -9,12 +9,23 @@ use GuzzleHttp\Exception\GuzzleException;
 
 class CountryClient extends Client
 {
-    private int $bin;
+    private int $bin = 0;
 
-    public function __construct(int $bin)
+    public function __construct()
     {
         $this->baseUrl = $_ENV['BINLIST_BASE_URL'];
+    }
+
+    public function getBin(): int
+    {
+        return $this->bin;
+    }
+
+    public function setBin(int $bin): self
+    {
         $this->bin = $bin;
+
+        return $this;
     }
 
     /**
@@ -23,6 +34,10 @@ class CountryClient extends Client
      */
     public function fetch(): Country
     {
+        if (!$this->getBin()) {
+            throw new \Exception('Bin value was not set');
+        }
+
         $response = $this->getClient()->get($this->baseUrl . $this->bin);
 
         if ($response->getStatusCode() !== 200) {
